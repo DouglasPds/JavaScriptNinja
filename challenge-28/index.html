@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenge-28</title>
+  <style>
+    .container {
+      max-width: 450px;
+      margin: 0 auto;
+      margin-top: 30px;
+    }
+
+    .info {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    label {
+      font-size: 30px;
+    }
+
+    input, button {
+      margin-bottom: 15px;
+      width: 390px;
+      height: 30px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <form>
+      <label for="cep">CEP</label>
+      <input data-js="cepInput" id="cep" type="text">
+      <button data-js="button" type="submit">Submit</button>
+    </form>
+
+    <h2 data-js="status"></h2>
+
+    <form class="info" action="">
+      <label for="logradouro">logradouro</label>
+      <input data-js="logradouro" id="logradouro" type="text" readonly>
+      <label for="bairro">bairro</label>
+      <input data-js="bairro" id="bairro" type="text" readonly>
+      <label for="estado">estado</label>
+      <input data-js="estado" id="estado" type="text" readonly>
+      <label for="cidade">cidade</label>
+      <input data-js="cidade" id="cidade" type="text" readonly>
+      <label for="CEP">CEP</label>
+      <input data-js="cep" id="CEP" type="text" readonly>
+    </form>
+
+
+  </div>
+  <script src="challenge-28.js"></script>
+</body>
+</html>

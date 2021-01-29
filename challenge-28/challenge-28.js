@@ -27,94 +27,97 @@
   adicionar as informações em tela.
   */
 
-  var $cepInput = doc.querySelector('[data-js="cepInput"]');
-  var $button = doc.querySelector('[data-js="button"]');
-  var $logradouro = doc.querySelector('[data-js="logradouro"]');
-  var $bairro = doc.querySelector('[data-js="bairro"]');
-  var $estado = doc.querySelector('[data-js="estado"]');
-  var $cidade = doc.querySelector('[data-js="cidade"]');
-  var $cep = doc.querySelector('[data-js="cep"]');
-  var $textarea = doc.querySelector('[data-js="textarea"]');
-  var $status = doc.querySelector('[data-js="status"]');
+  function app() {
+    var $cepInput = doc.querySelector('[data-js="cepInput"]');
+    var $button = doc.querySelector('[data-js="button"]');
+    var $logradouro = doc.querySelector('[data-js="logradouro"]');
+    var $bairro = doc.querySelector('[data-js="bairro"]');
+    var $estado = doc.querySelector('[data-js="estado"]');
+    var $cidade = doc.querySelector('[data-js="cidade"]');
+    var $cep = doc.querySelector('[data-js="cep"]');
+    var $status = doc.querySelector('[data-js="status"]');
 
 
-  $button.addEventListener('click', submit);
+    $button.addEventListener('click', submit);
 
-  function submit(e) {
-    e.preventDefault();
-    getCep();
-  }
+    function submit(e) {
+      e.preventDefault();
+      getCep();
+    }
 
-  function getCep() {
-    var ajax = createAjax();
-    addMessage(ajax);
-    hasReadyState(ajax);
-  }
-
-  function createAjax() {
-    var ajax = new XMLHttpRequest();
-    ajax.open('get', `https://ws.apicep.com/cep/${validCep()}.json`);
-    ajax.send();
-    return ajax;
-  }
-
-  function validCep() {
-    return $cepInput.value.match(/\d+/g).join('');
-  }
-
-  function hasReadyState(ajax) {
-    ajax.addEventListener('readystatechange', function() {
+    function getCep() {
+      var ajax = createAjax();
       addMessage(ajax);
-      if(ajax.readyState === 4 && ajax.status === 200)
-        responseToObject(ajax);
-    });
-  }
+      hasReadyState(ajax);
+    }
 
-  function responseToObject(ajax) {
-    var cepObj = JSON.parse(ajax.responseText);
-    addValueToElement(cepObj);
-  }
+    function createAjax() {
+      var ajax = new XMLHttpRequest();
+      ajax.open('get', `https://ws.apicep.com/cep/${validCep()}.json`);
+      ajax.send();
+      return ajax;
+    }
 
-  function addValueToElement(cepObj) {
-    $logradouro.value = cepObj.address;
-    $bairro.value = cepObj.district;
-    $estado.value = cepObj.state;
-    $cidade.value = cepObj.city;
-    $cep.value = cepObj.code;
-  }
+    function validCep() {
+      return $cepInput.value.match(/\d+/g).join('');
+    }
 
-  function addMessage(ajax) {
-    if(ajax.readyState !== 4)
-    $status.innerHTML = 'Buscando informações para o CEP ' + validCep() + ' ...';
-    if(ajax.readyState === 4){
+    function hasReadyState(ajax) {
+      ajax.addEventListener('readystatechange', function() {
+        addMessage(ajax);
+        if(ajax.readyState === 4 && ajax.status === 200)
+          responseToObject(ajax);
+      });
+    }
+
+    function responseToObject(ajax) {
       var cepObj = JSON.parse(ajax.responseText);
-      if(cepObj.status === 200)
-        $status.innerHTML = 'Endereço referente ao CEP ' + validCep() + ':';
-      if(cepObj.status !== 200)
-        $status.innerHTML = 'Não encontramos o endereço para o CEP ' + validCep() + '.';
+      addValueToElement(cepObj);
+    }
+
+    function addValueToElement(cepObj) {
+      $logradouro.value = cepObj.address;
+      $bairro.value = cepObj.district;
+      $estado.value = cepObj.state;
+      $cidade.value = cepObj.city;
+      $cep.value = cepObj.code;
+    }
+
+    function addMessage(ajax) {
+      if(ajax.readyState !== 4)
+      $status.innerHTML = 'Buscando informações para o CEP ' + validCep() + ' ...';
+      if(ajax.readyState === 4){
+        var cepObj = JSON.parse(ajax.responseText);
+        if(cepObj.status === 200)
+          $status.innerHTML = 'Endereço referente ao CEP ' + validCep() + ':';
+        if(cepObj.status !== 200)
+          $status.innerHTML = 'Não encontramos o endereço para o CEP ' + validCep() + '.';
+      }
     }
   }
 
-  // var ajax = new XMLHttpRequest();
-  // ajax.open('get', 'data.json');
-  // ajax.send();
+  app();
 
-  // var response;
-  // ajax.addEventListener('readystatechange', function() {
-  //   if(isRequestOk()) {
-  //     console.log('mudou', ajax.readyState, ajax.status);
-  //     try{
-  //       response = JSON.parse(ajax.responseText);
-  //       console.log('Requisição ok', response.cor );
-  //     }
-  //     catch(e) {
-  //       response = ajax.responseText;
-  //     }
-  //     console.log(response);
-  //   }
-  // }, false);
-
-  // function isRequestOk() {
-  //   return ajax.readyState === 4 && ajax.status === 200;
-  // }
 })(window, document);
+// var ajax = new XMLHttpRequest();
+// ajax.open('get', 'data.json');
+// ajax.send();
+
+// var response;
+// ajax.addEventListener('readystatechange', function() {
+//   if(isRequestOk()) {
+//     console.log('mudou', ajax.readyState, ajax.status);
+//     try{
+//       response = JSON.parse(ajax.responseText);
+//       console.log('Requisição ok', response.cor );
+//     }
+//     catch(e) {
+//       response = ajax.responseText;
+//     }
+//     console.log(response);
+//   }
+// }, false);
+
+// function isRequestOk() {
+//   return ajax.readyState === 4 && ajax.status === 200;
+// }
